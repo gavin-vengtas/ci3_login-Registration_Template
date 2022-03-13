@@ -39,13 +39,15 @@
             'placeholder' => 'Confirm Password');
     
         echo form_password($formpcdata); 
-        echo $this->session->flashdata('lpasswordconfIsInvalid')?'<div id="validationPasswordconf" class="invalid-feedback">'.$this->session->flashdata('lpasswordconfIsInvalid').'</div>':'<br>';
+        echo $this->session->flashdata('lpasswordconfIsInvalid')?'<div id="validationPasswordconf" class="invalid-feedback">'.$this->session->flashdata('lpasswordconfIsInvalid').'</div>':'';
         
         //submit
         $loginbtnattr = array(
             'class' => 'btn btn-outline-dark col-md-4',
             'name' => 'submit',
-            'value' => 'Login' );
+            'value' => 'Login',
+            'style' => 'min-width: fit-content;
+                        margin-top: 10px;' );
 
         echo form_submit($loginbtnattr);
 
@@ -54,7 +56,8 @@
             'class' => 'btn btn-outline-dark col-md-4',
             'name'          => 'register',
             'role'         => 'button',
-            'style' => 'min-width: fit-content;');
+            'style' => 'min-width: fit-content;
+                        margin-top: 10px;');
     
         echo anchor('users/register', 'Register', $registerbtnattr);
 
