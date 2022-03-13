@@ -112,7 +112,8 @@
         $loginbtnattr = array(
             'class' => 'btn btn-outline-dark',
             'name'  => 'submit',
-            'value' => 'Register' );
+            'value' => 'Register',
+            'style' => 'min-width: fit-content;' );
 
         echo form_submit($loginbtnattr);
 
