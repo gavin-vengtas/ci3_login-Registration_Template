@@ -56,7 +56,7 @@ class Users extends CI_Controller {
                 $_SESSION['user_id'] = $result['result']['Userid'];
                 $_SESSION['username'] = $result['result']['Username'];
                 $_SESSION['logged_in'] = true;
-                
+
                 $login_data = array(
                     'login_success' => true);
 
@@ -136,10 +136,10 @@ class Users extends CI_Controller {
         if($this->form_validation->run() == FALSE){
             //statement runs if any fields fail the validation check
             $formfielddata = $this->set_reg_form_fields();
+            $data['main_view'] = "users/register_view";
 
             $this->session->set_flashdata($formfielddata);
-
-            $this->load->view('users/register_view'); 
+            $this->load->view('layouts/main',$data);
 
         } else {
             //runs if the forms fields pass validation check
@@ -150,9 +150,10 @@ class Users extends CI_Controller {
                 $formfielddata = $this->set_reg_form_fields();
                 $formfielddata['usernameIsInvalid'] = 'This username is already taken';
                 $formfielddata['usernameClass'] = ' is-invalid';
+                $data['main_view'] = "users/register_view";
     
                 $this->session->set_flashdata($formfielddata);
-                $this->load->view('users/register_view'); 
+                $this->load->view('layouts/main',$data);
 
             } else {
                 $options  = array('cost' => 12);
@@ -184,9 +185,10 @@ class Users extends CI_Controller {
                     //display error if a DB error occured
                     $formfielddata = $this->set_reg_form_fields();
                     $formfielddata['register_failed'] = TRUE;
+                    $data['main_view'] = "users/register_view";
 
                     $this->session->set_flashdata($formfielddata);
-                    $this->load->view('users/register_view'); 
+	            	$this->load->view('layouts/main',$data);
 
                 }
 
