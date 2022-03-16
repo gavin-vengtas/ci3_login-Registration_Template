@@ -48,15 +48,19 @@ class Users extends CI_Controller {
 
             if($result['result']){
 
-                $user_data = array(
-                    'user_id' => $result['result']['Userid'],
-                    'username' => $result['result']['Username'],
-                    'logged_in' => true);
+                // $user_data = array(
+                //     'user_id' => $result['result']['Userid'],
+                //     'username' => $result['result']['Username'],
+                //     'logged_in' => true);
 
+                $_SESSION['user_id'] = $result['result']['Userid'];
+                $_SESSION['username'] = $result['result']['Username'];
+                $_SESSION['logged_in'] = true;
+                
                 $login_data = array(
                     'login_success' => true);
 
-                $this->session->set_userdata($user_data);
+                //$this->session->set_userdata($user_data);
                 $this->session->set_flashdata($login_data);
                 
                 
@@ -80,19 +84,19 @@ class Users extends CI_Controller {
 
     public function logout(){
 
-        //destroy session data and redirect to homepage (dont use this, instead unset user data)
-        //$this->session->sess_destroy();
-        
-        $this->session->unset_userdata(array(
-            'user_id',
-            'username',
-            'logged_in'));
+        //destroy session data (DONT USE THIS. Instead use unset($_SESSION[$key],...) for individual variables or $_SESSION = array() to unset all variables)
+        // $this->session->sess_destroy();
+
+        // unset($_SESSION['user_id'],$_SESSION['username'],$_SESSION['logged_in']);
+
+        $_SESSION = array();
         
         $this->session->set_flashdata(array(
             'logout_success' => true));
         
+        $data['main_view'] = "home_view";
 
-        redirect('home');
+        $this->load->view('layouts/main',$data);
     }
 
     public function register(){

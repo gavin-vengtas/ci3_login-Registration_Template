@@ -11,3 +11,6 @@
 
 ?>
 <h1>Admin View Page</h1>
+<?php
+    var_dump($this->session->userdata());
+?>
