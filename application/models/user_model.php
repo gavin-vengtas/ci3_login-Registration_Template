@@ -10,16 +10,24 @@ class User_model extends CI_Model {
     }
 
     public function login_user($username, $password){
-            $this->db->where('Username', $username);
-            $this->db->where('Password', $password);
 
-            $query = $this->db->get('Users');
+        $this->db->where('Username', $username);
 
-            if($query->num_rows() == 1){
-                return $query->result();
-            } else { 
-                return false;
+        $query = $this->db->get('Users');
+
+        $result = $query->result_array();
+
+        if(count($result)>0){
+            $isMatch = password_verify($password,$result[0]['Password']);
+
+            if($isMatch){
+                return array('result'=>array('Username' => $result[0]['Username'],'Userid' => $result[0]['Userid']));
+            } else {
+                return array('result'=>false);
             }
+        }else{
+            return array('result'=>false);
+        }
     }
 
     public function create_user($values){
@@ -30,11 +38,6 @@ class User_model extends CI_Model {
         return array(
             'query_success' => $query,
             'db_error' => $this->db->error());
-        // if($query->num_rows() == 1){
-        //     return $query->result();
-        // } else { 
-        //     return false;
-        // }
     }
 
     //returns true if username exists

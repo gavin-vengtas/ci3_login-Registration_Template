@@ -27,9 +27,9 @@
 <h1 class="text-center">Hello, world! This is my view!</h1>
 
 <?php 
-
+    echo '<br><br><strong>Flash data:</strong><br><br>';
     var_dump($this->session->flashdata());
-    echo '<br>';
+    echo '<br><br><strong>user data:</strong><br><br>';
     var_dump($this->session->userdata());
     
        

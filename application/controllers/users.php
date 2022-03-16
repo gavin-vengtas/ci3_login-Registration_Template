@@ -44,17 +44,14 @@ class Users extends CI_Controller {
 
             $result = $this->user_model->login_user($username,$password); //returns false if data does not match records, or if more than 1 record is found.
 
-            if($result){
+            $this->session->set_flashdata($result);
+
+            if($result['result']){
 
                 $user_data = array(
-                    'user_id' => '',
-                    'username' => '',
+                    'user_id' => $result['result']['Userid'],
+                    'username' => $result['result']['Username'],
                     'logged_in' => true);
-
-                foreach ($result as $key){
-                    $user_data['user_id'] = $key->Userid;
-                    $user_data['username'] = $key->Username;
-                }
 
                 $login_data = array(
                     'login_success' => true);
@@ -70,13 +67,12 @@ class Users extends CI_Controller {
             } else {
                 
                 $logindata = array(
-                    'login_failed' => true,
-                    'usernameValue' => $this->input->post('username'));
+                    'login_failed' => true);
     
                 $this->session->set_flashdata($logindata);
                 $data['main_view'] = "home_view";
     
-                redirect('home');
+                $this->load->view('layouts/main',$data);   
             }
         }
 
@@ -155,12 +151,15 @@ class Users extends CI_Controller {
                 $this->load->view('users/register_view'); 
 
             } else {
+                $options  = array('cost' => 12);
+
+                $encrypted_password = password_hash($this->input->post('password'),PASSWORD_BCRYPT,$options);
 
                 //else add new user to database and load main page
                 //run db query to add fields to user table
                 $values = array(
                     'Username' => $this->input->post('username'),
-                    'Password' => $this->input->post('password'),
+                    'Password' => $encrypted_password,
                     'Firstname' => $this->input->post('firstname'),
                     'Lastname' => $this->input->post('lastname'),
                     'Email_Primary' => $this->input->post('email'),
